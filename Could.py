@@ -6,7 +6,6 @@ import numpy as np
 from sklearn.linear_model import OrthogonalMatchingPursuit
 import pymongo
 import dns
-import keyboard
 
 broker_address = "192.168.43.246"
 
@@ -153,53 +152,49 @@ if __name__ == '__main__':
     print("Program Ready")
     i = 0
     while True:
-        if keyboard.is_pressed('ctrl+c'):
-            print("Keluar")
-            break
-        else:
-            try:
-                data = collection.find().sort('_id', pymongo.DESCENDING).limit(1)
-                Id = data[0]['_id']
-                if pId != Id:
-                    start = time.time()
-                    print(f'Terdapat Data Baru, Id ={Id}')
-                    Hreal = []
-                    Himag = []
-                    try:
-                        for X in data:
-                            HrealPPG = (X['PPG']['real'])
-                            HimagPPG = (X['PPG']['imag'])
-                            HrealEKG = (X['EKG']['real'])
-                            HimagEKG = (X['EKG']['imag'])
-                            HrealACCX = (X['ACCX']['real'])
-                            HimagACCX = (X['ACCX']['imag'])
-                            HrealACCY = (X['ACCY']['real'])
-                            HimagACCY = (X['ACCY']['imag'])
-                            HrealACCZ = (X['ACCZ']['real'])
-                            HimagACCZ = (X['ACCZ']['imag'])
-                            HrealEMG = (X['EMG']['real'])
-                            HimagEMG = (X['EMG']['imag'])
-                            HrealSUHU = (X['SUHU']['real'])
-                            HimagSUHU = (X['SUHU']['imag'])
-                    except:
-                        print("Belum Ada Data PPG")
-                    PPG = CS_(HrealPPG, HimagPPG)
-                    EKG = CS_(HrealEKG, HimagEKG)
-                    AcceX = CS_(HrealACCX, HimagACCX)
-                    AcceY = CS_(HrealACCY, HimagACCY)
-                    AcceZ = CS_(HrealACCZ, HimagACCZ)
-                    EMG = CS_(HrealEMG, HimagEMG)
-                    SUHU = CS_(HrealSUHU, HimagSUHU)
-                    pId = Id
-                    print("Kirim")
-                    kirim_()
-                    end = time.time()
-                    runTime = end - start
-                    print(f"Runtime of the program is {runTime} Second")
-                else:
-                    os.system('cls')
-                    print(f'Waiting for new data, Id = {Id}')
-            except:
-                # Id = []
-                pId = []
-                print("Could not find data at MongoDB")
+        try:
+            data = collection.find().sort('_id', pymongo.DESCENDING).limit(1)
+            Id = data[0]['_id']
+            if pId != Id:
+                start = time.time()
+                print(f'Terdapat Data Baru, Id ={Id}')
+                Hreal = []
+                Himag = []
+                try:
+                    for X in data:
+                        HrealPPG = (X['PPG']['real'])
+                        HimagPPG = (X['PPG']['imag'])
+                        HrealEKG = (X['EKG']['real'])
+                        HimagEKG = (X['EKG']['imag'])
+                        HrealACCX = (X['ACCX']['real'])
+                        HimagACCX = (X['ACCX']['imag'])
+                        HrealACCY = (X['ACCY']['real'])
+                        HimagACCY = (X['ACCY']['imag'])
+                        HrealACCZ = (X['ACCZ']['real'])
+                        HimagACCZ = (X['ACCZ']['imag'])
+                        HrealEMG = (X['EMG']['real'])
+                        HimagEMG = (X['EMG']['imag'])
+                        HrealSUHU = (X['SUHU']['real'])
+                        HimagSUHU = (X['SUHU']['imag'])
+                except:
+                    print("Belum Ada Data PPG")
+                PPG = CS_(HrealPPG, HimagPPG)
+                EKG = CS_(HrealEKG, HimagEKG)
+                AcceX = CS_(HrealACCX, HimagACCX)
+                AcceY = CS_(HrealACCY, HimagACCY)
+                AcceZ = CS_(HrealACCZ, HimagACCZ)
+                EMG = CS_(HrealEMG, HimagEMG)
+                SUHU = CS_(HrealSUHU, HimagSUHU)
+                pId = Id
+                print("Kirim")
+                kirim_()
+                end = time.time()
+                runTime = end - start
+                print(f"Runtime of the program is {runTime} Second")
+            else:
+                os.system('cls')
+                print(f'Waiting for new data, Id = {Id}')
+        except:
+            # Id = []
+            pId = []
+            print("Could not find data at MongoDB")
