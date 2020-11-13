@@ -197,4 +197,3 @@ if __name__ == '__main__':
         except:
             # Id = []
             pId = []
-            print("Could not find data at MongoDB")
