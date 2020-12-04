@@ -53,13 +53,6 @@ for x in range(Y):
 
 
 def kirim_():
-    response = requests.post(
-        "https://bysonics-alpha001.herokuapp.com/recording/start")
-    print(f"Request returned {response.status_code} : '{response.reason}'")
-    payload = response.content
-    import pprint
-    pp = pprint.PrettyPrinter(indent=1)
-    pp.pprint(payload)
     startAcc = time.time()
     data = {
         "id_rompi": "001",
